@@ -1,11 +1,20 @@
+"use client";
+import Contact from "@/components/Contact";
+import StepFour from "@/components/StepFour";
+import StepOne from "@/components/StepOne";
+import StepTwo from "@/components/StepTwo";
 import { steps } from "@/constants/AppData";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import React from "react";
+import { useForm } from "react-hook-form";
 
-export default function Booking({ searchParams }) {
-  const current = parseInt(searchParams.index) || 1;
+export default function Booking() {
+  const form = useForm();
+  const searchParams = useSearchParams();
+  const current = parseInt(searchParams.get("index")) || 1;
   return (
-    <div className="pt-20">
+    <div className="mt-10">
       <div className="hidden lg:flex justify-center items-center mt-10 ml-20">
         <div className="grid grid-cols-4 gap-5 mt-5 items-center w-[85%]">
           {steps.map((item, index) => (
@@ -40,6 +49,12 @@ export default function Booking({ searchParams }) {
           ))}
         </div>
       </div>
+
+      {current === 1 && <StepOne form={form} />}
+      {current === 2 && <StepTwo isForm={true} form={form} />}
+      {current === 3 && <Contact form={form} />}
+      {current === 4 && <StepFour form={form} />}
+
       <div
         className={`${
           current === 4 ? "hidden" : "flex"
